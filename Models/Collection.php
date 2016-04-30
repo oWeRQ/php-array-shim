@@ -13,7 +13,7 @@ class Collection implements CollectionInterface
 		}
 		
 		$collection = new static;
-		$collection->items = $items;
+		$collection->_items = $items;
 		return $collection;
 	}
 	

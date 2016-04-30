@@ -39,7 +39,7 @@ class Model implements ModelInterface
 		if (method_exists($this, $setter)) {
 			return $this->$setter($value);
 		} elseif (array_key_exists($key, $this->_attributes)) {
-		   $this->_attributes[$key] = $value;
+			$this->_attributes[$key] = $value;
 		}
 	}
 }
