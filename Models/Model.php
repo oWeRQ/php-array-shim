@@ -9,7 +9,7 @@ class Model implements ModelInterface
 	public static function fromArray(array $attributes)
 	{
 		$model = new static;
-		$model->attributes = $attributes;
+		$model->setAttributes($attributes);
 		return $model;
 	}
 
@@ -18,9 +18,13 @@ class Model implements ModelInterface
 		return $this->_attributes;
 	}
 
-	public function setAttributes($attributes)
+	public function setAttributes($values)
 	{
-		$this->_attributes = $attributes;
+		if (is_array($values)) {
+			foreach ($values as $name => $value) {
+				$this->$name = $value;
+			}
+		}
 	}
 	
 	public function __get($key)
@@ -38,7 +42,7 @@ class Model implements ModelInterface
 		$setter = 'set'.ucfirst($key);
 		if (method_exists($this, $setter)) {
 			return $this->$setter($value);
-		} elseif (array_key_exists($key, $this->_attributes)) {
+		} else {
 			$this->_attributes[$key] = $value;
 		}
 	}

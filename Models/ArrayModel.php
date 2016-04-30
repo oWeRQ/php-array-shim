@@ -4,6 +4,31 @@ namespace Models;
 
 class ArrayModel extends Model implements \ArrayAccess
 {
+	protected static $_keyMapCache = [];
+	
+	public function keyMap($key)
+	{
+		if (array_key_exists($key, static::$_keyMapCache)) {
+			return static::$_keyMapCache[$key];
+		} else {
+			return static::$_keyMapCache[$key] = \Helpers\Naming::from($key)->toCamel();
+		}
+	}
+	
+	public function __get($key)
+	{
+		return parent::__get($this->keyMap($key));
+	}
+	
+	public function __set($key, $value)
+	{
+		if (is_array($value)) {
+			$value = ArrayModel::fromArray($value);
+		}
+		
+		return parent::__set($this->keyMap($key), $value);
+	}
+	
 	public function offsetSet($offset, $value) {
 		if (is_null($offset)) {
 			$this->_attributes[] = $value;
