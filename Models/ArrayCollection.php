@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class ArrayCollection extends Collection implements \ArrayAccess, \IteratorAggregate
+class ArrayCollection extends Collection implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
 {
 	public function offsetSet($offset, $value) {
 		if (is_null($offset)) {
@@ -26,5 +26,9 @@ class ArrayCollection extends Collection implements \ArrayAccess, \IteratorAggre
 	
 	public function getIterator() {
 		return new \ArrayIterator($this->_items);
+	}
+	
+	public function jsonSerialize() {
+		return $this->_items;
 	}
 }

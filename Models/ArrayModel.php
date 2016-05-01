@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class ArrayModel extends Model implements \ArrayAccess
+class ArrayModel extends Model implements \ArrayAccess, \JsonSerializable
 {
 	protected static $_keyMapCache = [];
 	
@@ -47,5 +47,9 @@ class ArrayModel extends Model implements \ArrayAccess
 
 	public function offsetGet($offset) {
 		return isset($this->_attributes[$offset]) ? $this->_attributes[$offset] : null;
+	}
+	
+	public function jsonSerialize() {
+		return $this->_attributes;
 	}
 }
