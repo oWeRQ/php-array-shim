@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class ArrayModel extends Model implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
+class ArrayModel extends Model implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
 {
 	protected static $_keyMapCache = [];
 	
@@ -28,6 +28,11 @@ class ArrayModel extends Model implements \ArrayAccess, \IteratorAggregate, \Jso
 	public function __isset($key)
 	{
 		return parent::__isset($this->keyMap($key));
+	}
+
+	public function count()
+	{
+		return count($this->_attributes);
 	}
 	
 	public function offsetSet($key, $value) {

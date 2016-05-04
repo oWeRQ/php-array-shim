@@ -81,3 +81,9 @@ assert($collection[2]['PROPERTIES']['TEST_3']['VALUE'] === $collection[2]->prope
 assert($collection[0]['PROPERTIES']['LIST']['VALUE'][0] === 1);
 assert($collection[1]['PROPERTIES']['LIST']['VALUE'][1] === 2);
 assert($collection[2]['PROPERTIES']['LIST']['VALUE'][2] === 3);
+
+assert(count($collection) === 3);
+assert(count($collection[2]) === 5);
+assert(count($collection[2]['PROPERTIES']) === 2);
+assert(count($collection[2]['PROPERTIES']['LIST']) === 1);
+assert(count($collection[2]['PROPERTIES']['LIST']['VALUE']) === 3);

@@ -2,8 +2,13 @@
 
 namespace Models;
 
-class ArrayCollection extends Collection implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
+class ArrayCollection extends Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
 {
+	public function count()
+	{
+		return count($this->_items);
+	}
+	
 	public function offsetSet($offset, $value) {
 		if (is_null($offset)) {
 			$this->_items[] = $value;
