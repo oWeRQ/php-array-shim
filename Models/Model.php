@@ -22,6 +22,10 @@ class Model implements ModelInterface
 	{
 		if (is_array($values)) {
 			foreach ($values as $name => $value) {
+				if (is_array($value)) {
+					$value = static::fromArray($value);
+				}
+
 				$this->$name = $value;
 			}
 		}
@@ -44,6 +48,16 @@ class Model implements ModelInterface
 			return $this->$setter($value);
 		} else {
 			$this->_attributes[$key] = $value;
+		}
+	}
+
+	public function __isset($key)
+	{
+		$getter = 'get'.ucfirst($key);
+		if (method_exists($this, $getter)) {
+			return $this->$getter() !== null;
+		} elseif (array_key_exists($key, $this->_attributes)) {
+			return isset($this->_attributes[$key]);
 		}
 	}
 }

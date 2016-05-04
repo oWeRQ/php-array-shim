@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class ArrayModel extends Model implements \ArrayAccess, \JsonSerializable
+class ArrayModel extends Model implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
 {
 	protected static $_keyMapCache = [];
 	
@@ -22,33 +22,39 @@ class ArrayModel extends Model implements \ArrayAccess, \JsonSerializable
 	
 	public function __set($key, $value)
 	{
-		if (is_array($value)) {
-			$value = ArrayModel::fromArray($value);
-		}
-		
 		return parent::__set($this->keyMap($key), $value);
 	}
+
+	public function __isset($key)
+	{
+		return parent::__isset($this->keyMap($key));
+	}
 	
-	public function offsetSet($offset, $value) {
-		if (is_null($offset)) {
+	public function offsetSet($key, $value) {
+		$key = $this->keyMap($key);
+		if (is_null($key)) {
 			$this->_attributes[] = $value;
 		} else {
-			$this->_attributes[$offset] = $value;
+			$this->_attributes[$key] = $value;
 		}
 	}
 
-	public function offsetExists($offset) {
-		return isset($this->_attributes[$offset]);
+	public function offsetExists($key) {
+		return static::__isset($key);
 	}
 
-	public function offsetUnset($offset) {
-		unset($this->_attributes[$offset]);
+	public function offsetUnset($key) {
+		unset($this->_attributes[$this->keyMap($key)]);
 	}
 
-	public function offsetGet($offset) {
-		return isset($this->_attributes[$offset]) ? $this->_attributes[$offset] : null;
+	public function offsetGet($key) {
+		return static::__get($key);
 	}
-	
+
+	public function getIterator() {
+		return new \ArrayIterator($this->_attributes);
+	}
+
 	public function jsonSerialize() {
 		return $this->_attributes;
 	}
