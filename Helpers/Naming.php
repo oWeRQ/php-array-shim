@@ -19,6 +19,11 @@ class Naming
 		return new self($words);
 	}
 
+	public function toArray()
+	{
+		return $this->words;
+	}
+
 	public function toTitle()
 	{
 		return implode(' ', array_map('ucfirst', $this->words));

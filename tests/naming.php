@@ -19,13 +19,20 @@ $tests = [
 	'Price1',
 ];
 
+$methods = [
+	'toArray',
+	'toPascal',
+	'toCamel',
+	'toDashed',
+	'toUnder',
+	'toUpper',
+	'toTitle',
+];
+
 foreach ($tests as $test) {
 	$naming = Naming::from($test);
-	var_dump($naming);
-	var_dump($naming->toTitle());
-	var_dump($naming->toPascal());
-	var_dump($naming->toCamel());
-	var_dump($naming->toDashed());
-	var_dump($naming->toUnder());
-	var_dump($naming->toUpper());
+	echo "\n".str_pad("from:", 10).$test."\n";
+	foreach ($methods as $method) {
+		echo str_pad($method.":", 10).print_r($naming->$method(), true)."\n";
+	}
 }
