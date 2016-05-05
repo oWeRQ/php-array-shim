@@ -87,3 +87,5 @@ assert(count($collection[2]) === 5);
 assert(count($collection[2]['PROPERTIES']) === 2);
 assert(count($collection[2]['PROPERTIES']['LIST']) === 1);
 assert(count($collection[2]['PROPERTIES']['LIST']['VALUE']) === 3);
+
+echo "done\n";
